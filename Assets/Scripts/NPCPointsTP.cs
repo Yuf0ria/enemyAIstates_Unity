@@ -9,7 +9,7 @@ public class NPCPointsTP : MonoBehaviour
     {
         Loop,
         ReverseLoop //Enemy_npc goes back to the point
-        //Randomize
+        //Randomize ; could figure this one out
     }
     
     public Transform[] points; //Array for the points
@@ -17,12 +17,14 @@ public class NPCPointsTP : MonoBehaviour
     
     private int direction = 1; //default = 1, Direction is A -> B; -1 ; B -> A
     private int index;
-
-    public Vector3 currentPoint()
+    
+    //currentPoint()
+    public Vector3 currentPoint() //I'm checking vector3 cause I confused it for transform it works though, thx auto-fill :D
     {
         return points[index].position;
     }
     
+    //nextPoint()
     public Vector3 nextPoint()
     {
         if(points.Length == 0) return transform.position;
@@ -33,14 +35,15 @@ public class NPCPointsTP : MonoBehaviour
         return point;
     }
     
+    //pointsIndex()
     priavte int pointsIndex()
     {
         index += direction;
-        // if(index >= points.Length) return points.Length - 1; not initialized
+        // if(index >= points.Length) return points.Length - 1; auto-fill wrote this. delete this
         if (pathType == PathType.Loop)
         {
             index %= points.Length; // if like 5/5 = 0 wait hows a divide again? ; UPDATE: it was %, YIPPEE
-        }
+        } //BUT if
         if (pathType == PathType.ReverseLoop ||
             index < 0) //for loop could work here but maybe too much? ; UPDATE: yeah, nvm
         {
@@ -49,4 +52,6 @@ public class NPCPointsTP : MonoBehaviour
         }
         return index;
     }
+    
+    //
 }
