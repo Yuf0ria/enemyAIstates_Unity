@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
@@ -36,7 +37,7 @@ public class NPCPointsTP : MonoBehaviour
     }
     
     //pointsIndex()
-    priavte int pointsIndex()
+    private int pointsIndex()
     {
         index += direction;
         // if(index >= points.Length) return points.Length - 1; auto-fill wrote this. delete this
@@ -53,5 +54,21 @@ public class NPCPointsTP : MonoBehaviour
         return index;
     }
     
-    //
+    //OnDrawGismoz()
+    private void OnDrawGizmos()
+    {
+        if (points == null || points.Length == 0) return;
+        Gizmos.color = Color.red;
+        // Gizmos.DrawLine(transform.position, points[index].position);
+        for (int i = 0; i < points.Length; i++)
+        {
+            Gizmos.DrawLine(points[i].position, nextPoint());
+        }
+        if (pathType == PathType.Loop)
+        {
+            Gizmos.DrawLine(transform.position, nextPoint());
+        }
+
+        Gizmos.color = Color.yellow;
+    }
 }
