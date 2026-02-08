@@ -1,57 +1,61 @@
-using System;
-using System.IO;
 using UnityEngine;
-using UnityEngine.AI;
 
-
-public class NPCPointsTP : MonoBehaviour
+public class NpcPointsTp : MonoBehaviour
 {
-    public enum PathType
-    {
-        Loop,
-        ReverseLoop //Enemy_npc goes back to the point
-        //Randomize ; could figure this one out
-    }
+    #region enum
+        public enum PathType
+        {
+            Loop,
+            ReverseLoop //Enemy_npc goes back to the point
+            //Randomize ; could figure this one out
+        }
+    #endregion
+    #region public variables
+        public Transform[] points; //Array for the points
+        public PathType pathType = PathType.Loop; //checks paths
+    #endregion
+    #region private variables
+
+        private int _direction = 1; //default = 1, Direction is A -> B; -1 ; B -> A
+        private int _index;
+
+    #endregion
     
-    public Transform[] points; //Array for the points
-    public PathType pathType = PathType.Loop; //checks paths
     
-    private int direction = 1; //default = 1, Direction is A -> B; -1 ; B -> A
-    private int index;
     
     //currentPoint()
-    public Vector3 currentPoint() //I'm checking vector3 cause I confused it for transform it works though, thx auto-fill :D
+    public Vector3 CurrentPoint() //I'm checking vector3 cause I confused it for transform it works though, thx auto-fill :D
     {
-        return points[index].position;
+        return points[_index].position;
     }
     
     //nextPoint()
-    public Vector3 nextPoint()
+    public Vector3 NextPoint()
     {
         if(points.Length == 0) return transform.position;
 
-        index = pointsIndex(); //function loops then reverses it
-        Vector3 point = points[index].position;
+        _index = IndexingPoints(); //function loops then reverses it
+        Vector3 point = points[_index].position;
 
         return point;
     }
     
-    //pointsIndex()
-    private int pointsIndex()
+    //IndexingPoints()
+    private int IndexingPoints()
     {
-        index += direction;
+        _index += _direction;
         // if(index >= points.Length) return points.Length - 1; auto-fill wrote this. delete this
         if (pathType == PathType.Loop)
         {
-            index %= points.Length; // if like 5/5 = 0 wait hows a divide again? ; UPDATE: it was %, YIPPEE
+            _index %= points.Length; // if like 5/5 = 0 wait hows a divide again? ; UPDATE: it was %, YIPPEE
         } //BUT if
         if (pathType == PathType.ReverseLoop ||
-            index < 0) //for loop could work here but maybe too much? ; UPDATE: yeah, nvm
+            _index < 0) //for loop could work here but maybe too much? ; UPDATE: yeah, nvm
         {
-            direction += -1; // 0
-            index += direction * 2;// I LOVEE MATH (sobs)
+            _direction += -1; // 0
+            _index += _direction * 2;// I LOVEE MATH (sobs)
         }
-        return index;
+        return _index;
     }
     
     //OnDrawGismoz()
@@ -60,15 +64,18 @@ public class NPCPointsTP : MonoBehaviour
         if (points == null || points.Length == 0) return;
         Gizmos.color = Color.red;
         // Gizmos.DrawLine(transform.position, points[index].position);
-        for (int i = 0; i < points.Length; i++)
+        for (int i = 0; i < points.Length -1; i++)
         {
-            Gizmos.DrawLine(points[i].position, nextPoint());
+            Gizmos.DrawLine(points[i].position, points[i + 1].position);
         }
         if (pathType == PathType.Loop)
         {
-            Gizmos.DrawLine(transform.position, nextPoint());
+            Gizmos.DrawLine(points[points.Length - 1].position, points[0].position);
         }
-
         Gizmos.color = Color.yellow;
+        foreach (Transform point in points)
+        {
+            Gizmos.DrawSphere(point.position, 0.1f);
+        }
     }
 }

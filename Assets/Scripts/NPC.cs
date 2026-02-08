@@ -4,9 +4,9 @@ using UnityEngine.AI;
 public class NPC : MonoBehaviour
 {
     [SerializeField] float WaitAtThePoint = 1.5f;
-    [SerializeField] NPCPointsTP _path; //calling the script of the points
+    [SerializeField] NpcPointsTp _path; //calling the script of the points
     
-    NavMeshAgent _agent;
+    [SerializeField]NavMeshAgent _agent;
 
     private float timer = 0f;
     void Awake()
@@ -16,7 +16,7 @@ public class NPC : MonoBehaviour
 
     void Start()
     {
-        _agent.destination =  _path.currentPoint(); //Function
+        _agent.destination =  _path.CurrentPoint(); //Function
     }
 
     void Update()
@@ -27,7 +27,7 @@ public class NPC : MonoBehaviour
             if (timer >= WaitAtThePoint)
             {
                 timer = 0f;
-                _agent.destination = _path.nextPoint(); //if timer hits 0 it goes to the next point
+                _agent.destination = _path.NextPoint(); //if timer hits 0 it goes to the next point
             }
         }
     }
