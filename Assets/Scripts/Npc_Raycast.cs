@@ -21,10 +21,12 @@ public class Npc_Raycast : MonoBehaviour
         {
             Debug.Log($"Object name {hitInfo.transform.name}");
             Debug.DrawLine(ray.origin, hitInfo.point, Color.red);
+            //follow
         }
         else
         {
             Debug.DrawLine(ray.origin, ray.origin + ray.direction * distances, Color.blue);
+            //wait or stop
         }
     }
 }

@@ -18,9 +18,14 @@ public class OverlapRadius : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.CompareTag("object"))
+            if (hitCollider.CompareTag("Player"))
             {
                 Debug.Log(hitCollider.gameObject.name);
+                //follow
+            }
+            else
+            {
+                //wait, then continue patrol
             }
         }
     }
