@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,8 +22,7 @@ public class NpcPointsTp : MonoBehaviour
     [SerializeField]public NavMeshAgent agent;
     private int destPoint = 0;
     private float timer;
-    
-    [SerializeField] float WaitAtThePoint = 1.5f;
+    private float WaitAtThePoint = 0.3f;
     
 
     void Start() {
@@ -45,7 +42,7 @@ public class NpcPointsTp : MonoBehaviour
     }
 
     void Update() {
-        if (agent.remainingDistance < 0.5f)
+        if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
         {
             GotoNextPoint();
         }
