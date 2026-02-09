@@ -9,7 +9,8 @@ public class NpcPointsTp : MonoBehaviour
     #region public variables
         public Transform[] points;
         public Transform player;
-        public bool playerSighted;
+        public bool playerSighted,
+                    isItRunning;
         [SerializeField]public NavMeshAgent agent;
     #endregion
     #region private variables
@@ -82,11 +83,49 @@ public class NpcPointsTp : MonoBehaviour
         if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance) yield return new WaitForSeconds(10f); //buffer for the next route
     }
 
+    private IEnumerator Look_Patrol(Transform self)
+    {
+        if (10 >= Random.Range(1, 500))
+        {
+            Debug.Log("it runs");
+        
+            // Cache the start, left, and right extremes of our rotation.
+            Quaternion start = self.rotation;
+            Quaternion left = start * Quaternion.Euler(0, -45, 0);
+            Quaternion right = start * Quaternion.Euler(0, 45, 0);
+
+            // Yield control to the Rotate coroutine to execute
+            // each turn in sequence, and resume here after each
+            // invocation of Rotate finishes its work.
+
+            yield return Rotate(self, start, left, 1.0f);
+
+            yield return Rotate(self, left, right, 2.0f);
+
+            yield return Rotate(self, right, start, 1.0f);
+        }
+        isItRunning = true;
+    }
+    
+    IEnumerator Rotate(Transform self, Quaternion from, Quaternion to, float duration) {
+
+        for (float t = 0; t < 1f; t += Time.deltaTime / duration) {
+            // Rotate to match our current progress between from and to.
+            self.rotation = Quaternion.Slerp(from, to, t);
+            // Wait one frame before looping again.
+            yield return null;
+        }
+
+        // Ensure we finish exactly at the destination orientation.
+        self.rotation = to;
+    }
+
     private void EnemyLogic_Path()
     {
         if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
         {
             //Look_Patrol ;IEnumerator
+            StartCoroutine(Look_Patrol(transform));
             GotoNextPoint();
         }
 
