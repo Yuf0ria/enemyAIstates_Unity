@@ -14,19 +14,19 @@ public class NpcPointsTp : MonoBehaviour
     #region private variables
         private int _destPoint;
         private float _timer,
-            _waitAtThePoint = 0.3f,
+            _waitAtThePoint = 6f,
             _radius = 6;
     #endregion
-    void Start() {
+    private void Start() {
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
     }
     
-    void Update() {
+    private void Update() {
         RadObject(transform.position, _radius);
     }
     
-    void RadObject(Vector3 center, float radius)
+    private void RadObject(Vector3 center, float radius)
     {
         //OnDrawGizmos();
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
@@ -40,7 +40,7 @@ public class NpcPointsTp : MonoBehaviour
             }
             else
             {
-                StartCoroutine(Wait());
+                StartCoroutine(Wait()); //for player sighted
                 EnemyLogic_Path();
             }
         }
@@ -50,19 +50,23 @@ public class NpcPointsTp : MonoBehaviour
     {
         playerSighted = false;
         yield return new WaitForSeconds(1f);
+
+    }
+    
+    private IEnumerator ReRouteEnemyAI()
+    {
+        if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance) yield return new WaitForSeconds(10f); //buffer for the next route
     }
 
-    void EnemyLogic_Path()
+    private void EnemyLogic_Path()
     {
         if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
         {
             GotoNextPoint();
         }
-        
-        // Rerouting logic
-        // if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance) return; 
-        if (agent.remainingDistance > agent.stoppingDistance) return; 
 
+        StartCoroutine(ReRouteEnemyAI());
+        
         // Check for obstacles and reroute
         if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid) {
             // Choose a new point or random point
@@ -70,8 +74,10 @@ public class NpcPointsTp : MonoBehaviour
         }
     }
 
-    void GotoNextPoint() {
-        if (points.Length == 0) return;
+    private void GotoNextPoint() {
+        if (points.Length == 0) 
+            // Rerouting logic
+            return;
         _timer += Time.deltaTime;
         if (_timer >= _waitAtThePoint)
         {
