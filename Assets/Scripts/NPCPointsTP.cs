@@ -28,7 +28,7 @@ public class NpcPointsTp : MonoBehaviour
     
     void RadObject(Vector3 center, float radius)
     {
-        OnDrawGizmos();
+        //OnDrawGizmos();
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
         foreach (var hitCollider in hitColliders)
         {
@@ -80,7 +80,7 @@ public class NpcPointsTp : MonoBehaviour
         _destPoint = (_destPoint + 1) % points.Length;
     }
     
-    void OnDrawGizmos() //Sphere
+    public void OnDrawGizmos() //Sphere
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radius);
