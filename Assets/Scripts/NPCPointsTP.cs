@@ -1,19 +1,22 @@
-using System.Collections;
-using UnityEngine;
-using UnityEngine.AI;
+#region Assemblies
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.AI;
+#endregion
 
 public class NpcPointsTp : MonoBehaviour
 {
-    public Transform[] points;
-    public bool playerSighted;
-    [SerializeField]public NavMeshAgent agent;
-    
-    private int _destPoint;
-    private float _timer,
-        _waitAtThePoint = 0.3f,
-        _radius = 3;
-    
-
+    #region public variables
+        public Transform[] points;
+        public bool playerSighted;
+        [SerializeField]public NavMeshAgent agent;
+    #endregion
+    #region private variables
+        private int _destPoint;
+        private float _timer,
+            _waitAtThePoint = 0.3f,
+            _radius = 3;
+    #endregion
     void Start() {
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
@@ -37,7 +40,6 @@ public class NpcPointsTp : MonoBehaviour
             }
             else
             {
-                //courutine(PlayerNotInSight)
                 StartCoroutine(Wait());
                 EnemyLogic_Path();
             }
