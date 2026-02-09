@@ -15,7 +15,7 @@ public class NpcPointsTp : MonoBehaviour
         private int _destPoint;
         private float _timer,
             _waitAtThePoint = 0.3f,
-            _radius = 3;
+            _radius = 6;
     #endregion
     void Start() {
         agent = GetComponent<NavMeshAgent>();
