@@ -72,18 +72,7 @@ public class NpcPointsTp : MonoBehaviour
     
     #endregion
     
-    private IEnumerator Wait()
-    {
-        playerSighted = false;
-        yield return new WaitForSeconds(1f);
-    }
-    
-    private IEnumerator ReRouteEnemyAI()
-    {
-        if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance) yield return new WaitForSeconds(15f); //buffer for the next route
-    }
-    
-
+    #region void (public/private
     private void EnemyLogic_Path()
     {
         if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
@@ -92,7 +81,7 @@ public class NpcPointsTp : MonoBehaviour
         }
 
         StartCoroutine(ReRouteEnemyAI());
-        
+            
         // Check for obstacles and reroute
         if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid) {
             GotoNextPoint();
@@ -109,15 +98,29 @@ public class NpcPointsTp : MonoBehaviour
             agent.destination = points[_destPoint].position;
         }
         _destPoint = (_destPoint + 1) % points.Length;
-        rotateDone = false;
     }
-    
+        
     public void OnDrawGizmos() //Sphere
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radius);
-    }
+    }   
+    #endregion
 
+    #region IEnumerator
+        private IEnumerator Wait()
+        {
+            playerSighted = false;
+            yield return new WaitForSeconds(1f);
+        }
+        
+        private IEnumerator ReRouteEnemyAI()
+        {
+            if (agent.pathPending || agent.remainingDistance > agent.stoppingDistance) yield return new WaitForSeconds(15f); //buffer for the next route
+        }
+        
+    #endregion
+    
     #region _myPreviousCode(for reference)
         // #region public variables
         //     public Transform[] points; //Array for the points
