@@ -44,6 +44,15 @@ public class Movement : MonoBehaviour
             {
                 Velocity.y = Jump;
             }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                Speed *= 3;
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                Speed = 3;
+            }
             Controller.Move(MoveVector * Speed * Time.deltaTime);
         }
         else

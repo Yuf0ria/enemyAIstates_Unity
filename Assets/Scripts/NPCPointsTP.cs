@@ -12,12 +12,13 @@ public class NpcPointsTp : MonoBehaviour
         public bool playerSighted;
         [SerializeField]public NavMeshAgent agent;
     #endregion
+    
     #region private variables
         private int _destPoint;
         private float _timer,
             _waitAtThePoint = 6f,
             _radius = 6, //sphere
-            _distances = 10; //raycast
+            _distances= 5; //raycast
         [SerializeField] private LayerMask playerHit; //playerOnSight; raycast
         [SerializeField] private Color color;
     #endregion
@@ -40,12 +41,14 @@ public class NpcPointsTp : MonoBehaviour
             {
                 if (hitCollider.CompareTag("Player"))
                 {
+                    playerSighted = true;
                     Debug.Log(hitCollider.gameObject.name);
                     agent.SetDestination(hitCollider.transform.position);
-                    playerSighted = true;
+                    agent.speed = 8;
                 }
                 else
                 {
+                    agent.speed = 4;
                     StartCoroutine(Wait()); //for player sighted
                     EnemyLogic_Path();
                 }
@@ -73,38 +76,40 @@ public class NpcPointsTp : MonoBehaviour
     #endregion
     
     #region void (public/private
-    private void EnemyLogic_Path()
-    {
-        if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
+        private void EnemyLogic_Path()
         {
-            GotoNextPoint();
+            if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
+            {
+                GotoNextPoint();
+            }
+
+            StartCoroutine(ReRouteEnemyAI());
+                
+            // Check for obstacles and reroute
+            if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid) {
+                GotoNextPoint();
+            }
+            Debug.Log("Destination: " + _destPoint);
         }
 
-        StartCoroutine(ReRouteEnemyAI());
+        private void GotoNextPoint() {
+            if (points.Length == 0) 
+                return;
+            _timer += Time.deltaTime;
+            if (_timer >= _waitAtThePoint)
+            {
+                _timer = 0f;
+                agent.destination = points[_destPoint].position;
+            }
+
+            _destPoint = (_destPoint + 1) % points.Length;
+        }
             
-        // Check for obstacles and reroute
-        if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid) {
-            GotoNextPoint();
-        }
-    }
-
-    private void GotoNextPoint() {
-        if (points.Length == 0) 
-            return;
-        _timer += Time.deltaTime;
-        if (_timer >= _waitAtThePoint)
+        public void OnDrawGizmos() //Sphere
         {
-            _timer = 0f;
-            agent.destination = points[_destPoint].position;
-        }
-        _destPoint = (_destPoint + 1) % points.Length;
-    }
-        
-    public void OnDrawGizmos() //Sphere
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _radius);
-    }   
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, _radius);
+        }   
     #endregion
 
     #region IEnumerator
