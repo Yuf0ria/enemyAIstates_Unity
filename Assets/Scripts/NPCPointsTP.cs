@@ -98,13 +98,13 @@ public class NpcPointsTp : MonoBehaviour
             // each turn in sequence, and resume here after each
             // invocation of Rotate finishes its work.
 
-            yield return Rotate(self, start, left, 1.0f);
+            yield return Rotate(self, start, left, .5f);
 
-            yield return Rotate(self, left, right, 2.0f);
+            yield return Rotate(self, left, right, 1.0f);
 
-            yield return Rotate(self, right, start, 1.0f);
+            yield return Rotate(self, right, start, .5f);
         }
-        isItRunning = true;
+        isItRunning = false;
     }
     
     IEnumerator Rotate(Transform self, Quaternion from, Quaternion to, float duration) {
@@ -125,8 +125,15 @@ public class NpcPointsTp : MonoBehaviour
         if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
         {
             //Look_Patrol ;IEnumerator
-            StartCoroutine(Look_Patrol(transform));
-            GotoNextPoint();
+            if (isItRunning == false)
+            {
+                GotoNextPoint();
+            }
+            else
+            {
+                StartCoroutine(Look_Patrol(transform));
+            }
+
         }
 
         StartCoroutine(ReRouteEnemyAI());
@@ -139,7 +146,6 @@ public class NpcPointsTp : MonoBehaviour
 
     private void GotoNextPoint() {
         if (points.Length == 0) 
-            // Rerouting logic
             return;
         _timer += Time.deltaTime;
         if (_timer >= _waitAtThePoint)
@@ -148,6 +154,7 @@ public class NpcPointsTp : MonoBehaviour
             agent.destination = points[_destPoint].position;
         }
         _destPoint = (_destPoint + 1) % points.Length;
+        isItRunning = true;
     }
     
     public void OnDrawGizmos() //Sphere
