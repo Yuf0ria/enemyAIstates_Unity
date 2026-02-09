@@ -11,7 +11,7 @@ public class NpcPointsTp : MonoBehaviour
     private int _destPoint;
     private float _timer,
         _waitAtThePoint = 0.3f,
-        _radius = 4;
+        _radius = 3;
     
 
     void Start() {
