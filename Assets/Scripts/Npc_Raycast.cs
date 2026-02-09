@@ -2,10 +2,11 @@ using UnityEngine;
 
 public class Npc_Raycast : MonoBehaviour
 {
-    //serializefields
     float distances = 10;
     [SerializeField] LayerMask playerHit; //playerOnSight
     [SerializeField] Color color;
+    
+    
 
     void Update()
     {
