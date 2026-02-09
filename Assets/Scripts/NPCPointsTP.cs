@@ -8,6 +8,7 @@ public class NpcPointsTp : MonoBehaviour
 {
     #region public variables
         public Transform[] points;
+        public Transform player;
         public bool playerSighted;
         [SerializeField]public NavMeshAgent agent;
     #endregion
@@ -15,7 +16,10 @@ public class NpcPointsTp : MonoBehaviour
         private int _destPoint;
         private float _timer,
             _waitAtThePoint = 6f,
-            _radius = 6;
+            _radius = 6, //sphere
+            _distances = 10; //raycast
+        [SerializeField] private LayerMask playerHit; //playerOnSight; raycast
+        [SerializeField] private Color color;
     #endregion
     private void Start() {
         agent = GetComponent<NavMeshAgent>();
@@ -24,6 +28,7 @@ public class NpcPointsTp : MonoBehaviour
     
     private void Update() {
         RadObject(transform.position, _radius);
+        RaycastObj();
     }
     
     private void RadObject(Vector3 center, float radius)
@@ -45,6 +50,25 @@ public class NpcPointsTp : MonoBehaviour
             }
         }
     }
+    
+    private void RaycastObj()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo, _distances, playerHit))
+        {
+            Debug.Log($"Object name {hitInfo.transform.name}");
+            Debug.DrawLine(ray.origin, hitInfo.point, Color.red);
+            agent.SetDestination(player.position);
+            playerSighted = true;
+        }
+        else
+        {
+            Debug.DrawLine(ray.origin, ray.origin + ray.direction * _distances, Color.blue);
+            //wait or stop
+        }
+    }
 
     private IEnumerator Wait()
     {
@@ -62,6 +86,7 @@ public class NpcPointsTp : MonoBehaviour
     {
         if (agent.remainingDistance <=  agent.stoppingDistance && agent.velocity.sqrMagnitude == 0)
         {
+            //Look_Patrol ;IEnumerator
             GotoNextPoint();
         }
 
@@ -69,7 +94,6 @@ public class NpcPointsTp : MonoBehaviour
         
         // Check for obstacles and reroute
         if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid) {
-            // Choose a new point or random point
             GotoNextPoint(); // or implement a random point selection
         }
     }
