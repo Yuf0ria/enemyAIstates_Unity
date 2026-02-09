@@ -76,11 +76,6 @@ public class NpcPointsTp : MonoBehaviour
         if (_timer >= _waitAtThePoint)
         {
             _timer = 0f;
-            if (_timer == 0f)
-            {
-                if (agent.pathPending) return;
-                agent.ResetPath(); //interesting how autofill put this here, i'm trying it
-            }
             agent.destination = points[_destPoint].position;
         }
         _destPoint = (_destPoint + 1) % points.Length;
