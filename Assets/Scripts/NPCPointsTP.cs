@@ -82,14 +82,11 @@ public class NpcPointsTp : MonoBehaviour
             {
                 GotoNextPoint();
             }
-
             StartCoroutine(ReRouteEnemyAI());
-                
             // Check for obstacles and reroute
             if (agent.isPathStale || agent.pathStatus == NavMeshPathStatus.PathInvalid) {
                 GotoNextPoint();
             }
-            Debug.Log("Destination: " + _destPoint);
         }
 
         private void GotoNextPoint() {
