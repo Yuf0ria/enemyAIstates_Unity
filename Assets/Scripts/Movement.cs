@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private CharacterController Controller;
     [SerializeField] private Transform Player;
     //Movement
-    float Jump = 3;
+    // float Jump = 3;
     float Speed = 3;
     private float Sensetivity = 1;
     private float Gravity = 9.81f;
@@ -40,10 +40,10 @@ public class Movement : MonoBehaviour
         {
             Velocity.y = -1f;
 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                Velocity.y = Jump;
-            }
+            // if (Input.GetKeyDown(KeyCode.Space))
+            // {
+            //     Velocity.y = Jump;
+            // }
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
