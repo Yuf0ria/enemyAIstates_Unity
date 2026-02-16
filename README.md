@@ -5,4 +5,4 @@ EnemyStates Using Unity3d
 Branched: No Errors
 
 #### Acitivity 2
-Branched: Bug, Player Doesn't Jump
+Branched: NavMeshLink Suddenly Stopped Working
