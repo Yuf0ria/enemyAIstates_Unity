@@ -5,4 +5,4 @@ EnemyStates Using Unity3d
 Branched: No Errors
 
 #### Acitivity 2
-Branched: NavMeshLink Suddenly Stopped Working
+Branched: Working
