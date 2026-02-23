@@ -10,15 +10,18 @@ Bugs: Player cannot jump using navmesh off-link due to character-controller conf
 
 #### Midterms
 Path: Scene > Midterms
+
+**
 - Winning Scenario: Player has more followers than the enemy
-- Losing Scenario: Enemy has more followers than the player
-Scripts:
+- Losing Scenario: Enemy has more followers than the player**
+- 
+Scripts Used:
 - Movement_NoCam
 - NPC Spawn
 - EnemyPath
 - CountManagerScript
 - NPCFollow
--NPCPointsTP_NoTraverse
+- NPCPointsTP_NoTraverse
 
 *Go to Branch Path: Midterms*
 

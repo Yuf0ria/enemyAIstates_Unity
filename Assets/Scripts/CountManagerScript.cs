@@ -1,3 +1,9 @@
+//More like UI Count Manager Script
+//This Checks how many are at the players side vs the enemy
+//if player more npc, player win
+//if enemy more npc, player lose
+//tugg-tuggh tigity tug og awr
+//update: Shortened the Methods
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -37,7 +43,7 @@ public class CountManagerScript : MonoBehaviour
     }
 
     // Called by NPCSpawn when all NPCs are spawned
-    public void NPCSpawningComplete()
+    public void SpawnComplete()
     {
         NPCFollow[] allNPCs = FindObjectsByType<NPCFollow>(FindObjectsSortMode.None);
         totalNPCs = allNPCs.Length;
@@ -49,12 +55,12 @@ public class CountManagerScript : MonoBehaviour
     {
         if (!gameEnded && spawningComplete)
         {
-            CountActiveFollowers();
-            CheckConditions();
+            Counter(); //Counts the no of npc got by player or enemy
+            Conditions();
         }
     }
 
-    private void CountActiveFollowers()
+    private void Counter()
     {
         int playerCount = 0;
         int enemyCount = 0;
@@ -91,7 +97,7 @@ public class CountManagerScript : MonoBehaviour
         UpdateUI(0, 0);
     }
 
-    private void CheckConditions()
+    private void Conditions()
     {
         int playerFollowers = 0;
         int enemyFollowers = 0;
@@ -111,48 +117,49 @@ public class CountManagerScript : MonoBehaviour
             }
         }
         
-        // Only end game if ALL NPCs have been converted
+        //if player and enemy got them all
         if (playerFollowers + enemyFollowers >= totalNPCs)
         {
             gameEnded = true;
             
+            //if player is more than enemy
             if (playerFollowers > enemyFollowers)
             {
-                WinCondition();
+                Win();
             }
-            else if (enemyFollowers > playerFollowers)
+            else if (enemyFollowers > playerFollowers) //if player less than enemy
             {
-                LoseCondition();
+                Lose();
             }
-            else
+            else //yeah it tie
             {
-                DrawCondition();
+                Draw();
             }
         }
     }
 
-    private void WinCondition()
+    private void Win()
     {
         if (resultText != null)
             resultText.text = "You've Won!";
-        ShowGameOver();
+        GameOver();
     }
 
-    private void LoseCondition()
+    private void Lose()
     {
         if (resultText != null)
             resultText.text = "You've Lost!";
-        ShowGameOver();
+        GameOver();
     }
 
-    private void DrawCondition()
+    private void Draw()
     {
         if (resultText != null)
             resultText.text = "It's a Draw!";
-        ShowGameOver();
+        GameOver();
     }
 
-    private void ShowGameOver()
+    private void GameOver()
     {
         if (gameOverPanel != null)
             gameOverPanel.SetActive(true);
@@ -162,13 +169,13 @@ public class CountManagerScript : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void RestartGame()
+    public void Restart()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void QuitGame()
+    public void Quit()
     {
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;

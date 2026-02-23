@@ -1,15 +1,20 @@
+//Enemy targets and chases NPCs instead of patrol points
+//Imported from NPCpoints just changed it up
+//there might be soe varibales here If rogot to remove
+//sorry if not clean, clean up after a while
+//yes 2  method is now a pokemon reference, uwu
 #region Assemblies
     using UnityEngine;
     using UnityEngine.AI;
 #endregion
-//Enemy targets and chases NPCs instead of patrol points
+
 public class EnemyPath : MonoBehaviour
 {
     #region Components in Inspector
         [Header("Enemy Agent")]
         [SerializeField] public NavMeshAgent _agent;
         [Header("Movement Speed")]
-        [SerializeField] private float enemySpeed = 5f;
+        [SerializeField] private float enemySpeed = 20;
         [Header("Detection")]
         [SerializeField] private float detectionRadius = 15f; // How far enemy can see NPCs
     #endregion
@@ -27,11 +32,11 @@ public class EnemyPath : MonoBehaviour
     
     private void Update()
     {
-        FindAndChaseNPC();
+        GottaCatchThemAll();
     }
     
     #region Logic.EXE
-        private void FindAndChaseNPC()
+        private void GottaCatchThemAll()
         {
             // Find all NPCs in the scene
             NPCFollow[] allNPCs = FindObjectsByType<NPCFollow>(FindObjectsSortMode.None);
@@ -62,14 +67,14 @@ public class EnemyPath : MonoBehaviour
                 //Wander randomly if no NPCs
                 if (!_agent.hasPath || _agent.remainingDistance < 0.5f)
                 {
-                    Wander();
+                    SearchFarAndWideee();
                 }
             }
         }
         
-        private void Wander()
+        private void SearchFarAndWideee()
         {
-            // Pick a random point to walk to
+            // bro going circles not a random point lol
             Vector3 randomDirection = Random.insideUnitSphere * 10f;
             randomDirection += transform.position;
             
@@ -93,4 +98,6 @@ public class EnemyPath : MonoBehaviour
             }
         }   
     #endregion
+    
+    //PLEASE i WORTE THIS CODE i PROMISE, my brain nomore 
 }

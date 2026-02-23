@@ -1,3 +1,6 @@
+//Version nung pero walang jumping kasi masdyadong masakit sa ulo
+//This makes the npc walk tot he points
+//added .speed cause they slow originally
 #region Assemblies
     using System.Collections;
     using UnityEngine;
@@ -25,6 +28,7 @@ public class NpcPointsTp_noTraverse : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _agent.autoBraking = false;
+        _agent.speed = 10f;
         GotoNextPoint();
     }
     
