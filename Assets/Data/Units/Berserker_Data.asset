@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd5e676aa7e0e50097a9477305cfa63, type: 3}
+  m_Name: Berserker_Data
+  m_EditorClassIdentifier: Assembly-CSharp::UnitData
+  unitName: Berserker
+  teamID: 1
+  unitClass: 4
+  maxHealth: 160
+  attackDamage: 28
+  attackRange: 2
+  attackSpeed: 1.2
+  moveSpeed: 4.2
+  abilityRange: 3.5
+  abilityCooldown: 10
+  abilityValue: 60
+  teamColor: {r: 1, g: 0, b: 0, a: 1}
+  unitTintColor: {r: 1, g: 0.3, b: 0.2, a: 1}
+  unitScale: 1

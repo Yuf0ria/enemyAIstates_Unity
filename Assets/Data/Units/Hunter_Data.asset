@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd5e676aa7e0e50097a9477305cfa63, type: 3}
+  m_Name: Hunter_Data
+  m_EditorClassIdentifier: Assembly-CSharp::UnitData
+  unitName: Hunter
+  teamID: 1
+  unitClass: 7
+  maxHealth: 120
+  attackDamage: 20
+  attackRange: 13
+  attackSpeed: 1.6
+  moveSpeed: 4
+  abilityRange: 13
+  abilityCooldown: 9
+  abilityValue: 0
+  teamColor: {r: 1, g: 0, b: 0, a: 1}
+  unitTintColor: {r: 0.7, g: 0.5, b: 0.2, a: 1}
+  unitScale: 1
